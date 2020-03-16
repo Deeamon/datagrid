@@ -1,0 +1,10 @@
+.table-header {
+  display: flex;
+}
+.table-header__item {
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+}
