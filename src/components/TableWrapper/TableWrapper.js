@@ -3,7 +3,7 @@ import Controlls from '../Controlls'
 
 const PADDING_SIZE = 50;
 
-export default function TableWrapper({ children, setLocalData, style, ...rest }) {
+export default function TableWrapper({ children, style, ...rest }) {
   return (
     <div
       style={{
@@ -11,7 +11,7 @@ export default function TableWrapper({ children, setLocalData, style, ...rest })
         height: `${parseFloat(style.height) + PADDING_SIZE * 2}px`
       }}
       {...rest}>
-      <Controlls setLocalData={setLocalData} />
+      <Controlls />
       {children}
     </div>
   )

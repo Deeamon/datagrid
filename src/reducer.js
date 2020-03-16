@@ -1,9 +1,10 @@
 import { data, arrOfTitles } from './data';
-import { newStateColumn, newStateSortUp, newStateSortDown } from './reducersFuncs';
+import { newStateColumn, filterFullTableData, newStateSortUp, newStateSortDown, newStateFiltered } from './reducersFuncs';
 
 const initialState = {
   data,
-  arrOfTitles
+  arrOfTitles,
+  inputValue: ''
 };
 const reducer = (state = initialState, action) => {
 
@@ -37,17 +38,42 @@ const reducer = (state = initialState, action) => {
       };
 
     case 'SORT_UP':
-
       return {
         ...state,
         data: newStateSortUp(state, action),
       };
-    case 'SORT_DOWN':
 
+    case 'SORT_DOWN':
       return {
         ...state,
         data: newStateSortDown(state, action)
       };
+
+    case 'SET_VALUE':
+      return {
+        ...state,
+        inputValue: `${action.payload}`
+      };
+
+    case 'FILTER_VALUE':
+      return {
+        ...state,
+        data: newStateFiltered(state, action)
+      };
+
+    case 'CLEAR_INPUT':
+      return {
+        ...state,
+        data,
+        inputValue: ''
+      };
+
+    case 'SEARCH_IN_ALL_TABLE':
+      return {
+        ...state,
+        data: filterFullTableData(state, action)
+      };
+
     default:
       return state
   }

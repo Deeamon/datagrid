@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import './Row.scss';
 import { connect } from 'react-redux';
@@ -5,17 +7,16 @@ import * as actions from '../../actions'
 
 const PADDING_SIZE = 30;
 const Row = ({ columnIndex, rowIndex, value, style, switchStatus }) => {
-  // console.log(typeof columnIndex, columnIndex);
 
   return (
     <span
       style={{
         ...style,
         top: `${parseFloat(style.top) + PADDING_SIZE}px`
-      }
-      }
-      className="app-cell"
-      onDoubleClick={() => switchStatus(rowIndex)}>
+      }}
+      className={value[rowIndex][Object.keys(value[0]).length - 1] ? 'app-cell' : 'app-cell2'}
+      onClick={() => switchStatus(rowIndex)}
+    >
       {columnIndex === Object.keys(value[0]).length - 1
         ? <div>
           <input

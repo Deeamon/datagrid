@@ -27,3 +27,25 @@ export const sortDown = (payload) => {
     payload
   }
 }
+export const setValue = (payload) => {
+  return {
+    type: 'SET_VALUE',
+    payload
+  }
+}
+export const filterValue = (payload) => {
+  return {
+    type: 'FILTER_VALUE',
+    payload
+  }
+}
+export const clearInput = () => {
+  return {
+    type: 'CLEAR_INPUT',
+  }
+}
+export const searchInAllTable = () => {
+  return {
+    type: 'SEARCH_IN_ALL_TABLE',
+  }
+}
