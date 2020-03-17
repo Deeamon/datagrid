@@ -1,31 +1,40 @@
 import React from 'react';
+import { connect } from "react-redux";
 import { VariableSizeGrid as WindowTable } from 'react-window';
-import faker from 'faker';
+
 import TableRow from '../TableRow';
 import TableHeader from '../TableHeader';
 
-const Table = () => {
-  const rowCount = 1000;
-  const columnCount = 5;
-  const columns = ['id', 'firstName', 'lastName']
-  const data = Array.from(Array(rowCount)).map((item, index) => [
-    index + 1,
-    faker.random.uuid(),
-    faker.name.firstName(),
-    faker.name.lastName(),
-    faker.random.number(),
-  ]);
 
+
+
+const Table = ({data}) => {
+  const columns = [
+    'index',
+    'id',
+    'firstName',
+    'lastName',
+    'email',
+    'count of queries',
+    'status',
+    'created at',
+  ];
+ 
+  console.log('dta', data);
+  
   return (
     <div>
       <TableHeader columns={columns} />
       <WindowTable
-        columnWidth={() => 200}
+        columnWidth={index => {
+          console.log(index);
+          return index === 0 ? 50 : 200;
+        }}
         rowHeight={() => 50}
-        width={1000}
+        width={window.outerWidth}
         height={500}
-        columnCount={columnCount}
-        rowCount={rowCount}
+        columnCount={columns.length}
+        rowCount={1000}
         itemData={data}
       >
         {TableRow}
@@ -34,4 +43,18 @@ const Table = () => {
   );
 };
 
-export default Table;
+
+const mapStateToProps = ({data}) => {
+  return {
+    data,
+  };
+};
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     updateVisitedMovies: value => {
+//       dispatch(updateVisitedMovies(value));
+//     }
+//   };
+// };
+export default connect(mapStateToProps)(Table);
