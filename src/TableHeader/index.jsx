@@ -1,28 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import './table-header.css';
-import { sortColumnAscAction, sortColumnDescAction, searchInColumnAction } from '../actions';
+import {
+  sortColumnAscAction,
+  sortColumnDescAction,
+  searchInColumnAction,
+} from '../actions';
+import useOutsideClick from '../utils';
 
-const SearchModal = ({searchMethod, index}) => {
+const SearchModal = ({ searchMethod, index, modalRef }) => {
   const [search, setSearch] = useState('');
-  const searchInColomn = () => {
-    console.log(search);
-    searchMethod({search, index});
-
+  const searchInColomn = value => {
+    searchMethod({ search: value, index });
   };
   return (
-    <div className='table-header__modal'>
+    <div ref={modalRef} className='table-header__modal'>
       <input
         value={search}
         onChange={({ target: { value } }) => setSearch(value)}
       />
-      <button onClick={searchInColomn}>Search</button>
+      <button onClick={() => searchInColomn(search)}>Search</button>
+      <button onClick={() => searchInColomn('')}>Clear</button>
     </div>
   );
 };
 
 const Cell = ({ index, item, sortData, handleSortColumn, searchMethod }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const ref = useRef();
+  useOutsideClick(ref, () => {
+    setIsModalOpen(false)
+  });
   return (
     <div key={index} className='table-header__item'>
       <div onClick={() => handleSortColumn(index)}>
@@ -34,13 +42,21 @@ const Cell = ({ index, item, sortData, handleSortColumn, searchMethod }) => {
           <i className='fas fa-caret-down' />
         )}
       </div>
-      <div onClick={() => setIsModalOpen(!isModalOpen)}>D</div>
-      {isModalOpen && <SearchModal searchMethod={searchMethod} index={index}/>}
+      <div onMouseUp={() => setIsModalOpen(!isModalOpen)}>D</div>
+      {isModalOpen && (
+        <SearchModal modalRef={ref} searchMethod={searchMethod} index={index} />
+      )}
     </div>
   );
 };
 
-const TableHeader = ({ columns, sortColumnAsc, sortColumnDesc, sortData, searchInColumn }) => {
+const TableHeader = ({
+  columns,
+  sortColumnAsc,
+  sortColumnDesc,
+  sortData,
+  searchInColumn,
+}) => {
   const handleSortColumn = index => {
     if (sortData.order === 'ASC') sortColumnAsc(index);
     if (sortData.order === 'DESC') sortColumnDesc(index);

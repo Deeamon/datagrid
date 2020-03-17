@@ -21,7 +21,7 @@ const initialState = {
 export default function store(state = initialState, action) {
   switch (action.type) {
     case 'SORT_COLUMN_ASC':
-      let dataAsc = [...initialData];
+      let dataAsc = [...state.data];
       dataAsc.sort((a, b) => {
         if (a[action.payload.index] > b[action.payload.index]) {
           return 1;
@@ -38,7 +38,7 @@ export default function store(state = initialState, action) {
       };
 
     case 'SORT_COLUMN_DESC':
-      let dataDesc = [...initialData];
+      let dataDesc = [...state.data];
       dataDesc.sort((a, b) => {
         if (a[action.payload.index] < b[action.payload.index]) {
           return 1;
@@ -55,26 +55,16 @@ export default function store(state = initialState, action) {
       };
     case 'SERACH_IN_COLUMN':
       let filteredData = [...initialData];
-      console.log(action.payload);
       const fd = filteredData.filter(item =>
         item[action.payload.index]
           .toString()
           .toLowerCase()
           .includes(action.payload.search.toLowerCase())
       );
-      console.log(fd);
-
-      // filtredData.filter(item =>
-      //   item.filter(element =>
-      //     element
-      //       .toString()
-      //       .toLowerCase()
-      //       .includes(action.payload.search)
-      //   )
-      // );
       return {
         ...state,
         data: fd,
+        sortData: { index: null, order: 'ASC' },
       };
     default:
       return state;
