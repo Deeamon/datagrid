@@ -34,7 +34,7 @@ const Table = ({data}) => {
         width={window.outerWidth}
         height={500}
         columnCount={columns.length}
-        rowCount={1000}
+        rowCount={data.length}
         itemData={data}
       >
         {TableRow}

@@ -2,9 +2,27 @@
   display: flex;
 }
 .table-header__item {
+  position: relative;
   display: flex;
   justify-content: space-between;
   width: 200px;
-  height: 50px;
+  height: 20px;
   padding: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+.table-header__modal {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  width: 100%;
+  height: 20px;
+  padding: 5px 10px;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.table-header__modal input {
+  width: 100%;
 }

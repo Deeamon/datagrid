@@ -12,3 +12,10 @@ export function sortColumnDescAction(value) {
     };
   }
   
+export function searchInColumnAction(value) {
+    return {
+      type: "SERACH_IN_COLUMN",
+      payload: value
+    };
+  }
+  

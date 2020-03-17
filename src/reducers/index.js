@@ -34,7 +34,7 @@ export default function store(state = initialState, action) {
       return {
         ...state,
         data: dataAsc,
-        sortData: { index: action.payload.index, order: 'DECS' },
+        sortData: { index: action.payload.index, order: 'DESC' },
       };
 
     case 'SORT_COLUMN_DESC':
@@ -52,6 +52,29 @@ export default function store(state = initialState, action) {
         ...state,
         data: dataDesc,
         sortData: { index: action.payload.index, order: 'ASC' },
+      };
+    case 'SERACH_IN_COLUMN':
+      let filteredData = [...initialData];
+      console.log(action.payload);
+      const fd = filteredData.filter(item =>
+        item[action.payload.index]
+          .toString()
+          .toLowerCase()
+          .includes(action.payload.search.toLowerCase())
+      );
+      console.log(fd);
+
+      // filtredData.filter(item =>
+      //   item.filter(element =>
+      //     element
+      //       .toString()
+      //       .toLowerCase()
+      //       .includes(action.payload.search)
+      //   )
+      // );
+      return {
+        ...state,
+        data: fd,
       };
     default:
       return state;
