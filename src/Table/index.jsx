@@ -1,41 +1,68 @@
 import React from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import { VariableSizeGrid as WindowTable } from 'react-window';
+import './styles.css'
 
 import TableRow from '../TableRow';
 import TableHeader from '../TableHeader';
 
+import { searchInColumnAction, removeRowsAction } from '../actions';
 
-
-
-const Table = ({data}) => {
+const Table = ({
+  data,
+  searchInColumn,
+  searchData,
+  selectedRows,
+  removeRows,
+}) => {
   const columns = [
-    'index',
-    'id',
-    'firstName',
-    'lastName',
-    'email',
-    'count of queries',
-    'status',
-    'created at',
+    '#',
+    'ID',
+    'First Name',
+    'Last Name',
+    'Email',
+    'Count Of Queries',
+    'Status',
+    'Created At',
   ];
- 
-  console.log('dta', data);
-  
+
+  const searchInStatus = value => {
+    searchInColumn({ index: 6, search: value });
+  };
+
+  const filteredData = data.filter(item =>
+    item[searchData.index]
+      .toString()
+      .toLowerCase()
+      .includes(searchData.text.toLowerCase())
+  );
+
   return (
-    <div>
+    <div className="table">
+      <div className="table__buttons">
+        <button onClick={() => searchInStatus('true')}>
+          Show active status
+        </button>
+        <button onClick={() => searchInStatus('false')}>
+          Show disabled status
+        </button>
+        <button onClick={() => searchInStatus('')}>Clear Search</button>
+        {selectedRows.length ? (
+          <button onClick={() => removeRows()}>DELETE SELECTED </button>
+        ) : null}
+      </div>
+
       <TableHeader columns={columns} />
       <WindowTable
         columnWidth={index => {
-          console.log(index);
-          return index === 0 ? 50 : 200;
+          return index === 0 ? 70 : 150;
         }}
-        rowHeight={() => 50}
-        width={window.outerWidth}
-        height={500}
+        rowHeight={() => 40}
+        width={1120}
+        height={600}
         columnCount={columns.length}
-        rowCount={data.length}
-        itemData={data}
+        rowCount={filteredData.length}
+        itemData={filteredData}
       >
         {TableRow}
       </WindowTable>
@@ -43,18 +70,16 @@ const Table = ({data}) => {
   );
 };
 
-
-const mapStateToProps = ({data}) => {
+const mapStateToProps = ({ data, searchData, selectedRows }) => {
   return {
     data,
+    searchData,
+    selectedRows,
   };
 };
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     updateVisitedMovies: value => {
-//       dispatch(updateVisitedMovies(value));
-//     }
-//   };
-// };
-export default connect(mapStateToProps)(Table);
+const mapDispatchToProps = dispatch => ({
+  searchInColumn: search => dispatch(searchInColumnAction(search)),
+  removeRows: () => dispatch(removeRowsAction()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Table);

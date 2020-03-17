@@ -19,3 +19,22 @@ export function searchInColumnAction(value) {
     };
   }
   
+export function addSelectedRowAction(value) {
+    return {
+      type: "ADD_SELECTED_ROW",
+      payload: value
+    };
+  }
+export function removeSelectedRowAction(value) {
+    return {
+      type: "REMOVE_SELECTED_ROW",
+      payload: value
+    };
+  }
+export function removeRowsAction(value) {
+    return {
+      type: "REMOVE_ROWS",
+      payload: value
+    };
+  }
+  

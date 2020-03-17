@@ -1,15 +1,28 @@
 .table-header {
   display: flex;
+  width: 1120px;
 }
 .table-header__item {
   position: relative;
   display: flex;
   justify-content: space-between;
-  width: 200px;
+  width: 150px;
   height: 20px;
   padding: 10px;
-  cursor: pointer;
   user-select: none;
+}
+.table-header__item i {
+  cursor: pointer;
+}
+.table-header__item-title {
+  cursor: pointer;
+}
+.table-header__item-title i {
+  margin-left: 5px;
+}
+.table-header__item:first-of-type {
+  box-sizing: border-box;
+  width: 70px;
 }
 .table-header__modal {
   position: absolute;
@@ -23,6 +36,17 @@
   background: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+.table-header__modal button {
+  color: #999999;
+  background-color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.table-header__modal button:hover {
+  color: #333333;
+}
 .table-header__modal input {
   width: 100%;
+  outline: none;
 }

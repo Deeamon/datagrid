@@ -1,0 +1,11 @@
+.table-item {
+  box-sizing: border-box;
+  padding: 5px 10px;
+  overflow: hidden;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  border: 1px solid #eeeeee;
+}

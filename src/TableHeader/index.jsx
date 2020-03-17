@@ -11,6 +11,9 @@ import useOutsideClick from '../utils';
 const SearchModal = ({ searchMethod, index, modalRef }) => {
   const [search, setSearch] = useState('');
   const searchInColomn = value => {
+    if (!value) {
+      setSearch('');
+    }
     searchMethod({ search: value, index });
   };
   return (
@@ -19,8 +22,12 @@ const SearchModal = ({ searchMethod, index, modalRef }) => {
         value={search}
         onChange={({ target: { value } }) => setSearch(value)}
       />
-      <button onClick={() => searchInColomn(search)}>Search</button>
-      <button onClick={() => searchInColomn('')}>Clear</button>
+      <button onClick={() => searchInColomn(search)}>
+        <i className='fas fa-search' />
+      </button>
+      <button onClick={() => searchInColomn('')}>
+        <i className='fas fa-times' />
+      </button>
     </div>
   );
 };
@@ -29,11 +36,14 @@ const Cell = ({ index, item, sortData, handleSortColumn, searchMethod }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const ref = useRef();
   useOutsideClick(ref, () => {
-    setIsModalOpen(false)
+    setIsModalOpen(false);
   });
   return (
     <div key={index} className='table-header__item'>
-      <div onClick={() => handleSortColumn(index)}>
+      <div
+        className='table-header__item-title'
+        onClick={() => handleSortColumn(index)}
+      >
         {item}
         {sortData.order === 'DESC' && sortData.index === index && (
           <i className='fas fa-caret-up' />
@@ -42,7 +52,9 @@ const Cell = ({ index, item, sortData, handleSortColumn, searchMethod }) => {
           <i className='fas fa-caret-down' />
         )}
       </div>
-      <div onMouseUp={() => setIsModalOpen(!isModalOpen)}>D</div>
+      <div onMouseUp={() => setIsModalOpen(!isModalOpen)}>
+        <i className='fas fa-search' />
+      </div>
       {isModalOpen && (
         <SearchModal modalRef={ref} searchMethod={searchMethod} index={index} />
       )}
@@ -66,6 +78,7 @@ const TableHeader = ({
     <div className='table-header'>
       {columns.map((item, index) => (
         <Cell
+          key={index}
           index={index}
           item={item}
           sortData={sortData}

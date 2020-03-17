@@ -15,7 +15,8 @@ const initialData = Array.from(Array(1000)).map((item, index) => [
 const initialState = {
   data: initialData,
   sortData: { index: null, order: 'ASC' },
-  searchData: '',
+  searchData: { index: 0, text: '' },
+  selectedRows: [],
 };
 
 export default function store(state = initialState, action) {
@@ -54,17 +55,40 @@ export default function store(state = initialState, action) {
         sortData: { index: action.payload.index, order: 'ASC' },
       };
     case 'SERACH_IN_COLUMN':
-      let filteredData = [...initialData];
-      const fd = filteredData.filter(item =>
-        item[action.payload.index]
-          .toString()
-          .toLowerCase()
-          .includes(action.payload.search.toLowerCase())
+      return {
+        ...state,
+        sortData: { index: null, order: 'ASC' },
+        searchData: {
+          index: action.payload.index,
+          text: action.payload.search,
+        },
+      };
+    case 'ADD_SELECTED_ROW':
+      const sr = [...state.selectedRows];
+      sr.push(action.payload);
+      return {
+        ...state,
+        selectedRows: sr,
+      };
+    case 'REMOVE_SELECTED_ROW':
+      const srr = [...state.selectedRows];
+      srr.splice(
+        srr.findIndex(item => item === action.payload),
+        1
       );
       return {
         ...state,
-        data: fd,
-        sortData: { index: null, order: 'ASC' },
+        selectedRows: srr,
+      };
+    case 'REMOVE_ROWS':
+      const ndata = [...state.data];
+      state.selectedRows.forEach(item => {
+        ndata.splice(item, 1);
+      });
+      return {
+        ...state,
+        data: ndata,
+        selectedRows: [],
       };
     default:
       return state;
